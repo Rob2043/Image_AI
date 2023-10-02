@@ -130,21 +130,32 @@ def main():
     optimizer = torch.optim.Adam(params=model.parameters())
     loss_track, accuracy_track = trainval(model, loaders, optimizer, epochs=10)
 
-    from matplotlib import pyplot as plt
+    # from matplotlib import pyplot as plt
 
-    plt.plot(accuracy_track["training"], label="train")
-    plt.plot(accuracy_track["validation"], label="val")
-    plt.ylabel("accuracy")
-    plt.xlabel("epoch")
-    plt.grid()
-    plt.legend()
+    # plt.plot(accuracy_track["training"], label="train")
+    # plt.plot(accuracy_track["validation"], label="val")
+    # plt.ylabel("accuracy")
+    # plt.xlabel("epoch")
+    # plt.grid()
+    # plt.legend()
 
-    plt.plot(loss_track["training"], label="train")
-    plt.plot(loss_track["validation"], label="val")
-    plt.ylabel("loss")
-    plt.xlabel("epoch")
-    plt.grid()
-    plt.legend()
+    # plt.plot(loss_track["training"], label="train")
+    # plt.plot(loss_track["validation"], label="val")
+    # plt.ylabel("loss")
+    # plt.xlabel("epoch")
+    # plt.grid()
+    # plt.legend()
+
+    # Load the modified layers from your saved state_dict
+    saved_state_dict = torch.load("Ai_flowers.pth")
+    model_state_dict = model.state_dict()
+
+    # Update the model's state_dict with the saved state_dict for matching keys
+    for key in model_state_dict.keys():
+        if key in saved_state_dict and "resnet_fc" in key:
+            model_state_dict[key] = saved_state_dict[key]
+            
+    torch.save(model.state_dict(), "updated_model.pth")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import telebot
-import Ai_flowers.py
+import test 
 import torchvision
 from PIL import Image
 import io
@@ -29,7 +29,7 @@ def handler_image(message):
     downloaded_file = bot.download_file(file_info.file_path)
 
     image = Image.open(io.BytesIO(downloaded_file))
-    image = flower_classification_model.pth.predict_image(image, model)
+    image = test.classify_image.predict_image(image, model)
     image = image.to(device)
     with torch.no_grad():
         output = model(image.unsqueeze(0))
